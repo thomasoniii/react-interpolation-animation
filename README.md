@@ -35,30 +35,22 @@ Do this:
 
       const [interpolatedX, setInterpolatedX] = useState(x)
       useInterpolate(x, setInterpolatedX)
+      // repeat the above pattern with the other props you want to interpolate.
 
-      const [interpolatedY, setInterpolatedY] = useState(y)
-      useInterpolate(y, setInterpolatedY)
-
-      const [interpolatedWidth, setInterpolatedWidth] = useState(width)
-      useInterpolate(width, setInterpolatedWidth)
-
-      const [interpolatedHeight, setInterpolatedHeight] = useState(height)
-      useInterpolate(height, setInterpolatedHeight)
-
-      return <rect x = {interpolatedX} y = {interpolatedY} width = {interpolatedWidth} height = {interpolatedHeight} fill = {fill} />
+      return <rect x = {interpolatedX} y = {y} width = {width} height = {height} fill = {fill} />
     }
 
 Ta da! Read the walkthrough up above and the source for more options about all the configuration that can go into it.
 
 # FAQ
 
-* Why in the world would I use this? I love (insert name of animation library)
+- Why in the world would I use this? I love (insert name of animation library)
 
   That's awesome! Keep using it, then! This library is to help add quick transitional animations into existing code. So if you have a
   component that spits out a chart but doesn't animate transitions, you can use this to wrapper your pieces to easily add those transitions.
 
   If it's not powerful enough for you, then take the time to learn one of the more thorough libraries.
 
-* My animation is jumping all over the place. What's going on?
+- My animation is jumping all over the place. What's going on?
 
   You probably are passing a value as a string instead of a numeric value. Make sure your numbers are numbers!
