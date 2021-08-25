@@ -1,0 +1,29 @@
+div.App {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
+
+div.header {
+  font-size: 120%;
+  border: 1px solid gray;
+  padding: 5px;
+}
+
+div.code,
+div.example {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+code {
+  white-space: pre;
+}
+
+div.code {
+  background-color: #eeeeee;
+}
+
+svg {
+  border: 1px solid gray;
+}

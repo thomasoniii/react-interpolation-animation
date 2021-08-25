@@ -3,17 +3,17 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
-    "jest/globals": true
+    "jest/globals": true,
   },
   extends: ["eslint:recommended", "plugin:react/recommended"],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: "module"
+    sourceType: "module",
   },
-  plugins: ["react", "react-hooks","jest"],
+  plugins: ["react", "react-hooks", "jest"],
   rules: {
     semi: ["error", "never"],
     "no-var": "error",
@@ -40,7 +40,7 @@ module.exports = {
     "no-unused-expressions": "error",
     "no-use-before-define": [
       "error",
-      { functions: false, classes: true, variables: true }
+      { functions: false, classes: true, variables: true },
     ],
     "no-useless-call": "error",
     "no-useless-computed-key": "error",
@@ -51,7 +51,7 @@ module.exports = {
     quotes: [
       "error",
       "double",
-      { avoidEscape: true, allowTemplateLiterals: true }
+      { avoidEscape: true, allowTemplateLiterals: true },
     ],
     radix: "error",
     "react/jsx-boolean-value": "error",
@@ -59,6 +59,6 @@ module.exports = {
     "react/no-danger": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "spaced-comment": "error"
-  }
+    "spaced-comment": "error",
+  },
 }

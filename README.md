@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# react-interpolation-animation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Check out the live demo/walkthrough at <a href = "https://thomasoniii.github.io/react-interpolation-animation">https://thomasoniii.github.io/react-interpolation-animation</a>
 
-## Available Scripts
+This is a set of simple higher order react components + a hook that do nothing more than help you interpolate from one value to another.
 
-In the project directory, you can run:
+It's easy to spit out a bunch of bars in a bar chart in an SVG element. It's relatively difficult to animate a transition from one width
+to another. These files make it easy.
 
-### `yarn start`
+Instead of this:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    <rect x = {x} y = {y} width = {width} height = {height} fill = "blue" />`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Do this:
 
-### `yarn test`
+    import { Animator } from "react-interpolation-animation"
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    <Animator values={["x", "y", "width", "height"]}>
+      <rect x = {x} y = {y} width = {width} height = {height} fill = "blue" />
+    </Animator>`
 
-### `yarn build`
+That's it. Now if you change the values of x,y,width or height, your rectangle will animate to the new value instad of jarringly jumping.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If it makes more sense, you can also use a hook and do it inline. So instead of this:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    const MyRect = ({x,y,width,height,fill}) => {
+      return <rect x = {x} y = {y} width = {width} height = {height} fill = {fill} />
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Do this:
 
-### `yarn eject`
+    import { useInterpolate } from "react-interpolation-animation"
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    const MyRect = ({x,y,width,height,fill}) => {
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+      const [interpolatedX, setInterpolatedX] = useState(x)
+      useInterpolate(x, setInterpolatedX)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+      const [interpolatedY, setInterpolatedY] = useState(y)
+      useInterpolate(y, setInterpolatedY)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+      const [interpolatedWidth, setInterpolatedWidth] = useState(width)
+      useInterpolate(width, setInterpolatedWidth)
 
-## Learn More
+      const [interpolatedHeight, setInterpolatedHeight] = useState(height)
+      useInterpolate(height, setInterpolatedHeight)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+      return <rect x = {interpolatedX} y = {interpolatedY} width = {interpolatedWidth} height = {interpolatedHeight} fill = {fill} />
+    }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ta da! Read the walkthrough up above and the source for more options about all the configuration that can go into it.
 
-### Code Splitting
+# FAQ
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* Why in the world would I use this? I love (insert name of animation library)
 
-### Analyzing the Bundle Size
+  That's awesome! Keep using it, then! This library is to help add quick transitional animations into existing code. So if you have a
+  component that spits out a chart but doesn't animate transitions, you can use this to wrapper your pieces to easily add those transitions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  If it's not powerful enough for you, then take the time to learn one of the more thorough libraries.
 
-### Making a Progressive Web App
+* My animation is jumping all over the place. What's going on?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  You probably are passing a value as a string instead of a numeric value. Make sure your numbers are numbers!
