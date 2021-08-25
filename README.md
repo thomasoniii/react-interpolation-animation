@@ -1,6 +1,6 @@
 # react-interpolation-animation
 
-Check out the live demo/walkthrough at <a href = "https://thomasoniii.github.io/react-interpolation-animation">https://thomasoniii.github.io/react-interpolation-animation</a>
+Check out the live demo/walkthrough at <a href = "https://thomasoniii.github.io/react-interpolation-animation/">https://thomasoniii.github.io/react-interpolation-animation/</a>
 
 This is a set of simple higher order react components + a hook that do nothing more than help you interpolate from one value to another.
 
