@@ -54,3 +54,15 @@ Ta da! Read the walkthrough up above and the source for more options about all t
 - My animation is jumping all over the place. What's going on?
 
   You probably are passing a value as a string instead of a numeric value. Make sure your numbers are numbers!
+
+- The animation timing is too fast/too slow. Can I change it?
+
+  You bet! For the `<Animator>` component, just pass a `duration` prop with the number of ms you'd like it to take. Here's 10 seconds.
+
+      <Animator values={["width"]} duration = {10000} >...</Animator>
+
+  For the `useInterpolate` hook, the third argument is an options object. Pass duration there.
+
+      ...
+      useInterpolate(width, setInterpolatedWidth, { duration : 10000})
+      ...
