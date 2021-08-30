@@ -41,6 +41,13 @@ import { useRef, useEffect } from "react"
       than the one initially set on the component when it is first mounted.
       You can pass in a set of initial values to use here.
 
+    loop - repeat the animation from the beginning the specified number of times.
+      e.g., 5 repeats 5x, 10 repeats 10x.
+      0 is the default where it will not repeat.
+      -1 repeats infinite times.
+
+      Again, rememeber, it loops from the beginning.
+
 */
 
 /*
@@ -72,6 +79,7 @@ const useInterpolate = (
     duration = 500,
     getHasChanges = defaultHasChanges,
     initial,
+    loop = 0,
   } = {}
 ) => {
   // requestAnimationFrame starts ticking as soon as the page is loaded. We'll need
@@ -131,7 +139,7 @@ const useInterpolate = (
         // if our current time < duration, we're still interpolating.
         // get newDelta values, call the setter with them, and save them along
         // with requesting a new frame.
-        if (time < duration) {
+        if (time < duration || --loop) {
           const newDelta = getDelta({
             from: prevVals,
             to: current,
@@ -142,6 +150,11 @@ const useInterpolate = (
           lastFrame.current.delta = newDelta
 
           lastFrame.current.frame = requestAnimationFrame(animate)
+
+          if (loop && time >= duration) {
+            previous.current = prevVals
+            startTime.current = undefined
+          }
         } else {
           // otherwise, we've the duration. So we just call the setter with our final
           // values, update our previous value, and wipe out the last frame.

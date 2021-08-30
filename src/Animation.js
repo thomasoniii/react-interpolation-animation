@@ -23,6 +23,7 @@ const Animation = ({
   easing = {},
   defaultEasing = animatorDefaultEasing,
   initial = {},
+  loop = 0,
 }) => {
   // given our values array, look to the child to figure out our current values.
   const current = values.reduce((bucket, v) => {
@@ -57,6 +58,8 @@ const Animation = ({
     duration,
 
     initial: fullInitial,
+
+    loop,
 
     // our getDelta function needs to construct a new object with each value interpolated
     // along the way.
