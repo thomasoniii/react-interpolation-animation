@@ -7,6 +7,7 @@ import Example4 from "./examples/Example4"
 import Example5 from "./examples/Example5"
 import Example6 from "./examples/Example6"
 import Example7 from "./examples/Example7"
+import Example8 from "./examples/Example8"
 import Example9 from "./examples/Example9"
 
 import "./App.css"
@@ -29,11 +30,12 @@ function App() {
       <Example2 />
       <Example3 />
       <Example4 />
-      <Example9 />
+      <Example8 />
 
       <Example5 />
       <Example6 />
       <Example7 />
+      <Example9 />
 
       <div style={{ gridColumnStart: "span 2" }} className="header">
         <div>
