@@ -64,6 +64,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "babel-preset-react": "^6.24.1",
+    "babel-standalone": "^6.26.0",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "rollup": "^2.56.3",

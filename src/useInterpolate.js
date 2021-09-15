@@ -139,7 +139,8 @@ const useInterpolate = (
         // if our current time < duration, we're still interpolating.
         // get newDelta values, call the setter with them, and save them along
         // with requesting a new frame.
-        if (time < duration || --loop) {
+        if (time < duration || loop--) {
+          // if (time < duration) {
           const newDelta = getDelta({
             from: prevVals,
             to: current,
