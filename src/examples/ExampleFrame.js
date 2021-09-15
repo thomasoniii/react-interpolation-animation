@@ -1,13 +1,15 @@
+import PropTypes from "prop-types"
+import * as babel from "babel-standalone"
+
 import R from "react"
 import A from "../Animator"
 import AC from "../AnimationConsumer"
-import PropTypes from "prop-types"
-import * as babel from "babel-standalone"
+import ui from "../useInterpolate"
 
 const getExampleComponent = (
   code,
   // eslint-disable-next-line
-  { React = R, Animator = A, AnimationConsumer = AC } = {}
+  { React = R, Animator = A, AnimationConsumer = AC, useInterpolate = ui } = {}
 ) => {
   const wrappedCode = `() => {
     ${code}
