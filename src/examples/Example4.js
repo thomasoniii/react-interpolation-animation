@@ -17,9 +17,9 @@ const code = `
         width="100"
         height="100"
       >
-        &lt;!-- simply pass the "height" key here to interpolate on it. If
+        /* simply pass the "height" key here to interpolate on it. If
         height is not specified, then the width would animate but the height
-        would jump. --&gt;
+        would jump. */
         <Animator values={["width", "height"]}>
           <rect x="10" y="10" width={width} height={height} fill="blue" />
         </Animator>
