@@ -1,10 +1,14 @@
 import R from "react"
 import A from "../Animator"
+import AC from "../AnimationConsumer"
 import PropTypes from "prop-types"
 import * as babel from "babel-standalone"
 
-// eslint-disable-next-line
-const getExampleComponent = (code, { React, Animator }) => {
+const getExampleComponent = (
+  code,
+  // eslint-disable-next-line
+  { React = R, Animator = A, AnimationConsumer = AC } = {}
+) => {
   const wrappedCode = `() => {
     ${code}
   }`
@@ -21,7 +25,7 @@ const getExampleComponent = (code, { React, Animator }) => {
 }
 
 const ExampleFrame = ({ blurb, code }) => {
-  const Component = getExampleComponent(code, { React: R, Animator: A })
+  const Component = getExampleComponent(code)
 
   return (
     <R.Fragment>
