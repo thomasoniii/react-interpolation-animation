@@ -49,6 +49,13 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
       than the one initially set on the component when it is first mounted.
       You can pass in a set of initial values to use here.
 
+    loop - repeat the animation from the beginning the specified number of times.
+      e.g., 5 repeats 5x, 10 repeats 10x.
+      0 is the default where it will not repeat.
+      -1 repeats infinite times.
+
+      Again, rememeber, it loops from the beginning.
+
 */
 
 /*
@@ -85,7 +92,9 @@ var useInterpolate = function useInterpolate(current, setter) {
       duration = _ref2$duration === void 0 ? 500 : _ref2$duration,
       _ref2$getHasChanges = _ref2.getHasChanges,
       getHasChanges = _ref2$getHasChanges === void 0 ? defaultHasChanges : _ref2$getHasChanges,
-      initial = _ref2.initial;
+      initial = _ref2.initial,
+      _ref2$loop = _ref2.loop,
+      loop = _ref2$loop === void 0 ? 0 : _ref2$loop;
 
   // requestAnimationFrame starts ticking as soon as the page is loaded. We'll need
   // to do conversions between absolute page load time vs relative interpolation time.
@@ -134,7 +143,8 @@ var useInterpolate = function useInterpolate(current, setter) {
         // get newDelta values, call the setter with them, and save them along
         // with requesting a new frame.
 
-        if (time < duration) {
+        if (time < duration || loop--) {
+          // if (time < duration) {
           var newDelta = getDelta({
             from: prevVals,
             to: current,
@@ -145,6 +155,11 @@ var useInterpolate = function useInterpolate(current, setter) {
           });
           lastFrame.current.delta = newDelta;
           lastFrame.current.frame = requestAnimationFrame(animate);
+
+          if (loop && time >= duration) {
+            previous.current = prevVals;
+            startTime.current = undefined;
+          }
         } else {
           // otherwise, we've the duration. So we just call the setter with our final
           // values, update our previous value, and wipe out the last frame.
@@ -302,7 +317,9 @@ var Animation = function Animation(_ref) {
       _ref$defaultEasing = _ref.defaultEasing,
       defaultEasing = _ref$defaultEasing === void 0 ? animatorDefaultEasing : _ref$defaultEasing,
       _ref$initial = _ref.initial,
-      initial = _ref$initial === void 0 ? {} : _ref$initial;
+      initial = _ref$initial === void 0 ? {} : _ref$initial,
+      _ref$loop = _ref.loop,
+      loop = _ref$loop === void 0 ? 0 : _ref$loop;
   // given our values array, look to the child to figure out our current values.
   var current = values.reduce(function (bucket, v) {
     return _objectSpread2(_objectSpread2({}, bucket), {}, _defineProperty({}, v, child.props[v]));
@@ -338,6 +355,7 @@ var Animation = function Animation(_ref) {
     },
     duration: duration,
     initial: fullInitial,
+    loop: loop,
     // our getDelta function needs to construct a new object with each value interpolated
     // along the way.
     getDelta: function getDelta(_ref3) {
