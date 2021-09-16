@@ -70,6 +70,7 @@ Ta da! Read the walkthrough up above and the source for more options about all t
 - I need to loop my animation!
 
   No problemo. Just pass in a loop={NUMBER} parameter to the <Animator> component, or set { loop : NUMBER } in the options of useInterpolate.
-  loop === 0 -> does not loop
-  loop > 0 -> loops the number of times specified.
-  loop === -1 -> loops infinitely. To stop this loop, you'll need to change loop to something non-negative AND at least one of the interpolated props.
+
+  - loop === 0 -> does not loop
+  - loop > 0 -> loops the number of times specified.
+  - loop === -1 -> loops infinitely. To stop this loop, you'll need to change loop to something non-negative AND at least one of the interpolated props.
