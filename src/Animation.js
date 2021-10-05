@@ -24,6 +24,7 @@ const Animation = ({
   defaultEasing = animatorDefaultEasing,
   initial = {},
   loop = 0,
+  onCompleteCallback,
 }) => {
   // given our values array, look to the child to figure out our current values.
   const current = values.reduce((bucket, v) => {
@@ -78,6 +79,8 @@ const Animation = ({
         }
       }, {})
     },
+
+    onCompleteCallback,
   })
 
   // finally, we're going to clone the child with the new props

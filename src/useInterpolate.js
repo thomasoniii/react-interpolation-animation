@@ -80,6 +80,7 @@ const useInterpolate = (
     getHasChanges = defaultHasChanges,
     initial,
     loop = 0,
+    onCompleteCallback = () => {},
   } = {}
 ) => {
   // requestAnimationFrame starts ticking as soon as the page is loaded. We'll need
@@ -162,6 +163,7 @@ const useInterpolate = (
           setter(() => current)
           previous.current = current
           lastFrame.current = {}
+          onCompleteCallback()
         }
       })
     }
