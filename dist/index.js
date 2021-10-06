@@ -94,7 +94,9 @@ var useInterpolate = function useInterpolate(current, setter) {
       getHasChanges = _ref2$getHasChanges === void 0 ? defaultHasChanges : _ref2$getHasChanges,
       initial = _ref2.initial,
       _ref2$loop = _ref2.loop,
-      loop = _ref2$loop === void 0 ? 0 : _ref2$loop;
+      loop = _ref2$loop === void 0 ? 0 : _ref2$loop,
+      _ref2$onCompleteCallb = _ref2.onCompleteCallback,
+      onCompleteCallback = _ref2$onCompleteCallb === void 0 ? function () {} : _ref2$onCompleteCallb;
 
   // requestAnimationFrame starts ticking as soon as the page is loaded. We'll need
   // to do conversions between absolute page load time vs relative interpolation time.
@@ -168,6 +170,7 @@ var useInterpolate = function useInterpolate(current, setter) {
           });
           previous.current = current;
           lastFrame.current = {};
+          onCompleteCallback();
         }
       });
     } // always save the new current values as the previous ones whenever we enter.
@@ -319,7 +322,8 @@ var Animation = function Animation(_ref) {
       _ref$initial = _ref.initial,
       initial = _ref$initial === void 0 ? {} : _ref$initial,
       _ref$loop = _ref.loop,
-      loop = _ref$loop === void 0 ? 0 : _ref$loop;
+      loop = _ref$loop === void 0 ? 0 : _ref$loop,
+      onCompleteCallback = _ref.onCompleteCallback;
   // given our values array, look to the child to figure out our current values.
   var current = values.reduce(function (bucket, v) {
     return _objectSpread2(_objectSpread2({}, bucket), {}, _defineProperty({}, v, child.props[v]));
@@ -372,7 +376,8 @@ var Animation = function Animation(_ref) {
         });
         return _objectSpread2(_objectSpread2({}, bucket), {}, _defineProperty({}, v, newValue));
       }, {});
-    }
+    },
+    onCompleteCallback: onCompleteCallback
   }); // finally, we're going to clone the child with the new props
   // but toss out the animator-initial value: we don't need it any more and don't
   // want it writing to the DOM.
