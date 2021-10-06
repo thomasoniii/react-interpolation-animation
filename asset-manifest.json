@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-interpolation-animation/static/css/main.e48f69e6.chunk.css",
-    "main.js": "/react-interpolation-animation/static/js/main.4e06b7d1.chunk.js",
-    "main.js.map": "/react-interpolation-animation/static/js/main.4e06b7d1.chunk.js.map",
+    "main.js": "/react-interpolation-animation/static/js/main.70fa9a63.chunk.js",
+    "main.js.map": "/react-interpolation-animation/static/js/main.70fa9a63.chunk.js.map",
     "runtime-main.js": "/react-interpolation-animation/static/js/runtime-main.cdf88930.js",
     "runtime-main.js.map": "/react-interpolation-animation/static/js/runtime-main.cdf88930.js.map",
     "static/js/2.fd6b35ae.chunk.js": "/react-interpolation-animation/static/js/2.fd6b35ae.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.cdf88930.js",
     "static/js/2.fd6b35ae.chunk.js",
     "static/css/main.e48f69e6.chunk.css",
-    "static/js/main.4e06b7d1.chunk.js"
+    "static/js/main.70fa9a63.chunk.js"
   ]
 }
