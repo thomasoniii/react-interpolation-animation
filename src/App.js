@@ -10,6 +10,7 @@ import Example7 from "./examples/Example7"
 import Example8 from "./examples/Example8"
 import Example9 from "./examples/Example9"
 import Example10 from "./examples/Example10"
+import Example11 from "./examples/Example11"
 
 import "./App.css"
 
@@ -38,6 +39,7 @@ function App() {
       <Example7 />
       <Example9 />
       <Example10 />
+      <Example11 />
 
       <div style={{ gridColumnStart: "span 2" }} className="header">
         <div>

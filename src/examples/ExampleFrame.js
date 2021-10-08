@@ -11,6 +11,10 @@ const getExampleComponent = (
   // eslint-disable-next-line
   { React = R, Animator = A, AnimationConsumer = AC, useInterpolate = ui } = {}
 ) => {
+  if (typeof code === "function") {
+    return code
+  }
+
   const wrappedCode = `() => {
     ${code}
   }`
@@ -29,6 +33,10 @@ const getExampleComponent = (
 const ExampleFrame = ({ blurb, code }) => {
   const Component = getExampleComponent(code)
 
+  if (typeof code === "function") {
+    code = "Code is function"
+  }
+
   return (
     <R.Fragment>
       <div className="code">
@@ -44,7 +52,7 @@ const ExampleFrame = ({ blurb, code }) => {
 
 ExampleFrame.propTypes = {
   blurb: PropTypes.string,
-  code: PropTypes.string,
+  code: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
 export default ExampleFrame

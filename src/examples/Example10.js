@@ -3,7 +3,7 @@ import ExampleFrame from "./ExampleFrame"
 
 const blurb = `You can also add a callback to let you know when your interpolation has finished.`
 
-const code = `
+const Code = `
   const [width, setWidth] = React.useState(25)
   const [tempWidth, setTempWidth] = React.useState(width)
   const [message, setMessage] = React.useState("")
@@ -18,7 +18,15 @@ const code = `
       >
         <Animator
           values={["width"]}
-          onCompleteCallback={() => setMessage("Done interpolating!")}
+          onCompleteCallback={({ from, to }) => {
+            setMessage(
+              \`Done interpolating!\nfrom : \${JSON.stringify(
+                from,
+                undefined,
+                2
+              )}\nto : \${JSON.stringify(to, undefined, 2)}\`
+            )
+          }}
         >
           <rect x="10" y="10" width={width} height="25" fill="blue" />
         </Animator>
@@ -27,20 +35,24 @@ const code = `
         <input
           type="text"
           value={tempWidth}
-          onChange={(e) => {
-            setMessage("")
-            setTempWidth(parseInt(e.target.value, 10))
-          }}
+          onChange={(e) => setTempWidth(parseInt(e.target.value, 10))}
         />
-        <button onClick={() => setWidth(tempWidth)}>Update width</button>
+        <button
+          onClick={() => {
+            setMessage("")
+            setWidth(tempWidth)
+          }}
+        >
+          Update width
+        </button>
       </div>
-      <div>{message}</div>
+      <div style={{ whiteSpace: "pre" }}>{message}</div>
     </React.Fragment>
   )
 `
 
 const Example10 = () => {
-  return <ExampleFrame blurb={blurb} code={code} />
+  return <ExampleFrame blurb={blurb} code={Code} />
 }
 
 export default Example10

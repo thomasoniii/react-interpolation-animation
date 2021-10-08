@@ -24,8 +24,8 @@ import { useRef, useEffect } from "react"
 
     getDelta - should be a function which accepts a single object, which contains
       three values - { to, from, percent }
-      to is the value at the start of the interpolation
-      from is the value at the end of the interpolation
+      from is the value at the start of the interpolation
+      to is the value at the end of the interpolation
       percent is a float from 0->1 showing how far along the animation we are.
       Pass this arg to change easing speed or animation effects, such as to use
       a quadratic ease function or animate text typing.
@@ -163,7 +163,7 @@ const useInterpolate = (
           setter(() => current)
           previous.current = current
           lastFrame.current = {}
-          onCompleteCallback()
+          onCompleteCallback({ from: prevVals, to: current })
         }
       })
     }
