@@ -74,10 +74,13 @@ const Animator = (props) => {
     ...props,
   }
 
+  if (React.Children.count(args.children) < 1) {
+    return null
+  }
   return React.Children.count(args.children) > 1 ? (
     <AnimationGroup {...args} />
   ) : (
-    <Animation {...args} child={React.Children.only(args.children)} />
+    <Animation {...args} child={React.Children.toArray(args.children)[0]} />
   )
 }
 
