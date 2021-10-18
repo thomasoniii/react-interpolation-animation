@@ -9,13 +9,42 @@
   In fact, go look at the more thorough documentation over in Animator.
 */
 
-import React from "react"
+import React, { useRef } from "react"
 import Animation from "./Animation"
 
+import { combineLists } from "./utils/merge-arrays"
+
 const AnimationGroup = (props) => {
+  const lastChildren = useRef(null)
+
   const args = { ...props }
   delete args.children
-  return React.Children.map(props.children, (child) => (
+
+  const exitValues = {}
+  console.log("A")
+  // const lastChildrenArray =
+  // okay, here we need to build a new nodelist, restoring the deleted kids.
+  const lastChildrenMap = new Map(
+    React.Children.toArray(lastChildren.current).map((child) => [
+      child.key,
+      child,
+    ])
+  )
+  console.log("B", lastChildrenMap)
+  console.log("C", props.children)
+  const children = React.Children.map(props.children, (child) => {
+    console.log("SEES : ", child)
+    if (lastChildrenMap.has(child)) {
+      return child
+    } else {
+      console.log("CLONES WITH EXIT VALUES : ", child.key)
+      return React.cloneElement(child, exitValues)
+    }
+  })
+  console.log("CHILDREN ARE : ", children)
+  lastChildren.current = props.children
+
+  return React.Children.map(children, (child) => (
     <Animation {...args} child={child} />
   ))
 }

@@ -1,6 +1,6 @@
 import React from "react"
 
-import Example1 from "./examples/Example1"
+/* import Example1 from "./examples/Example1"
 import Example2 from "./examples/Example2"
 import Example3 from "./examples/Example3"
 import Example4 from "./examples/Example4"
@@ -10,7 +10,8 @@ import Example7 from "./examples/Example7"
 import Example8 from "./examples/Example8"
 import Example9 from "./examples/Example9"
 import Example10 from "./examples/Example10"
-import Example11 from "./examples/Example11"
+import Example11 from "./examples/Example11" */
+import Example12 from "./examples/Example12"
 
 import "./App.css"
 
@@ -28,7 +29,7 @@ function App() {
         </a>
         .
       </div>
-      <Example1 />
+      {/* <Example1 />
       <Example2 />
       <Example3 />
       <Example4 />
@@ -39,7 +40,8 @@ function App() {
       <Example7 />
       <Example9 />
       <Example10 />
-      <Example11 />
+      <Example11 />*/}
+      <Example12 />
 
       <div style={{ gridColumnStart: "span 2" }} className="header">
         <div>
