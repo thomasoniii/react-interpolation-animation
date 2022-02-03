@@ -32,8 +32,8 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 
     getDelta - should be a function which accepts a single object, which contains
       three values - { to, from, percent }
-      to is the value at the start of the interpolation
-      from is the value at the end of the interpolation
+      from is the value at the start of the interpolation
+      to is the value at the end of the interpolation
       percent is a float from 0->1 showing how far along the animation we are.
       Pass this arg to change easing speed or animation effects, such as to use
       a quadratic ease function or animate text typing.
@@ -170,7 +170,10 @@ var useInterpolate = function useInterpolate(current, setter) {
           });
           previous.current = current;
           lastFrame.current = {};
-          onCompleteCallback();
+          onCompleteCallback({
+            from: prevVals,
+            to: current
+          });
         }
       });
     } // always save the new current values as the previous ones whenever we enter.
@@ -323,8 +326,10 @@ var Animation = function Animation(_ref) {
       initial = _ref$initial === void 0 ? {} : _ref$initial,
       _ref$loop = _ref.loop,
       loop = _ref$loop === void 0 ? 0 : _ref$loop,
-      onCompleteCallback = _ref.onCompleteCallback;
-  // given our values array, look to the child to figure out our current values.
+      onCompleteCallback = _ref.onCompleteCallback,
+      idxList = _ref.idxList;
+  console.log("GETS IDX LIST : ", idxList); // given our values array, look to the child to figure out our current values.
+
   var current = values.reduce(function (bucket, v) {
     return _objectSpread2(_objectSpread2({}, bucket), {}, _defineProperty({}, v, child.props[v]));
   }, {}); // we're going to build a new initial object
@@ -382,18 +387,154 @@ var Animation = function Animation(_ref) {
   // but toss out the animator-initial value: we don't need it any more and don't
   // want it writing to the DOM.
 
+  console.log("RENDERS IDX LIST : ", idxList);
   return /*#__PURE__*/React__default['default'].cloneElement(child, _objectSpread2(_objectSpread2({}, localValues), {}, _defineProperty({}, ANIMATOR_INITIAL, undefined)));
 };
 
+var defaultPickFromOld = function defaultPickFromOld(oldList, index) {
+  return oldList[index];
+};
+
+var defaultPickFromNew = function defaultPickFromNew(newList, index) {
+  return newList[index];
+};
+
+var defaultIncludes = function defaultIncludes(list, value) {
+  return list.includes(value);
+};
+
+var defaultFindIndex = function defaultFindIndex(list, value) {
+  return list.find(function (e) {
+    return e === value;
+  });
+};
+
+var mergeFromOld = function mergeFromOld(_ref) {
+  var oldList = _ref.oldList,
+      newList = _ref.newList,
+      _ref$combinedList = _ref.combinedList,
+      combinedList = _ref$combinedList === void 0 ? [] : _ref$combinedList,
+      _ref$afterIndex = _ref.afterIndex,
+      afterIndex = _ref$afterIndex === void 0 ? 0 : _ref$afterIndex,
+      _ref$pickFromOld = _ref.pickFromOld,
+      pickFromOld = _ref$pickFromOld === void 0 ? defaultPickFromOld : _ref$pickFromOld,
+      _ref$includes = _ref.includes,
+      includes = _ref$includes === void 0 ? defaultIncludes : _ref$includes;
+  var afterOffset = 0;
+
+  while (afterIndex + afterOffset < oldList.length && !includes(newList, oldList[afterIndex + afterOffset])) {
+    var oldElem = pickFromOld(oldList, afterIndex + afterOffset);
+    combinedList.push(oldElem);
+    afterOffset++;
+  }
+
+  return combinedList;
+};
+
+var combineLists = function combineLists(_ref2) {
+  var oldList = _ref2.oldList,
+      newList = _ref2.newList,
+      _ref2$pickFromNew = _ref2.pickFromNew,
+      pickFromNew = _ref2$pickFromNew === void 0 ? defaultPickFromNew : _ref2$pickFromNew,
+      _ref2$pickFromOld = _ref2.pickFromOld,
+      pickFromOld = _ref2$pickFromOld === void 0 ? defaultPickFromOld : _ref2$pickFromOld,
+      _ref2$includes = _ref2.includes,
+      includes = _ref2$includes === void 0 ? defaultIncludes : _ref2$includes,
+      _ref2$findIndex = _ref2.findIndex,
+      findIndex = _ref2$findIndex === void 0 ? defaultFindIndex : _ref2$findIndex;
+  // first, pull in any deleted items that are at the start.
+  var combinedList = mergeFromOld({
+    oldList: oldList,
+    newList: newList,
+    pickFromOld: pickFromOld,
+    includes: includes
+  }); // now, peel off the new elements one by one
+  // for (const newElem of newList) {
+
+  for (var i = 0; i < newList.length; i++) {
+    var newElem = pickFromNew(newList, i);
+    combinedList.push(newElem); // find it in the old list
+
+    var oldIndex = findIndex(oldList, newElem);
+
+    if (oldIndex >= 0) {
+      // and pull in any deleted items following it, if necessary
+      combinedList = mergeFromOld({
+        oldList: oldList,
+        newList: newList,
+        combinedList: combinedList,
+        afterIndex: oldIndex + 1,
+        pickFromOld: pickFromOld,
+        includes: includes
+      });
+    }
+  } // then return our combined list.
+
+
+  return combinedList;
+};
+
+window.gizmos = new Set();
+
 var AnimationGroup = function AnimationGroup(props) {
+  var gizmo = React.useRef(null);
+  window.gizmos.add(gizmo);
+  console.log("I HAVE GIZMOS : ", window.gizmos);
+  var lastChildren = React.useRef(null);
+
   var args = _objectSpread2({}, props);
 
-  delete args.children;
-  return React__default['default'].Children.map(props.children, function (child) {
-    return /*#__PURE__*/React__default['default'].createElement(Animation, Object.assign({}, args, {
-      child: child
-    }));
+  delete args.children; // const exitValues = { opacity: 0.5 }
+
+  var children = combineLists({
+    oldList: React__default['default'].Children.toArray(lastChildren.current),
+    newList: React__default['default'].Children.toArray(props.children),
+    // eslint-disable-next-line
+    pickFromOld: function pickFromOld(_, i) {
+      return (
+        /*#__PURE__*/
+        // (oldList, index) => (
+        // React.cloneElement(oldList[index], exitValues),
+        React__default['default'].createElement("div", {
+          key: "D-".concat(i)
+        }, "DELETED")
+      );
+    },
+    includes: function includes(list, value) {
+      return list.find(function (v) {
+        return v.key === value.key;
+      });
+    },
+    findIndex: function findIndex(list, value) {
+      return list.findIndex(function (v) {
+        return v.key === value.key;
+      });
+    }
   });
+  lastChildren.current = props.children;
+  console.log("CHILDREN ARE : ", children, children.length, props.children.length);
+  var idxList = React__default['default'].Children.map(children, function (k, i) {
+    console.log("MAP HERE : ", k, i, k.key);
+    return k.key;
+  }).join(",");
+  console.log("IDX LIST : ", idxList, typeof idxList);
+
+  if (children.length > props.children.length) {
+    console.log("RETURNS OUT HERE!,", children.length, props.children.length);
+    return idxList;
+  }
+
+  console.log("STILL GOING!");
+  return [React__default['default'].Children.map(children, function (k, i) {
+    console.log("MAP HERE : ", k, i, k.key);
+    return k.key;
+  }).join(","), "(", idxList, ")", React__default['default'].Children.map(children, function (child) {
+    console.log("MAP OVER CHILDREN : ", child, idxList);
+    return /*#__PURE__*/React__default['default'].createElement(Animation, Object.assign({}, args, {
+      child: child,
+      idxList: idxList
+    }));
+  })]; // eslint-disable-next-line
 };
 
 /*
@@ -465,8 +606,12 @@ var Animator = function Animator(props) {
     duration: DEFAULT_DURATION
   }, props);
 
+  if (React__default['default'].Children.count(args.children) < 1) {
+    return null;
+  }
+
   return React__default['default'].Children.count(args.children) > 1 ? /*#__PURE__*/React__default['default'].createElement(AnimationGroup, args) : /*#__PURE__*/React__default['default'].createElement(Animation, Object.assign({}, args, {
-    child: React__default['default'].Children.only(args.children)
+    child: React__default['default'].Children.toArray(args.children)[0]
   }));
 };
 

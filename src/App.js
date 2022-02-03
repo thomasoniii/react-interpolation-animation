@@ -16,6 +16,7 @@ import Example12 from "./examples/Example12"
 import "./App.css"
 
 function App() {
+  console.log("I HAVE RE-RENDERS APP")
   return (
     <div className="App">
       <div style={{ gridColumnStart: "span 2" }} className="header">

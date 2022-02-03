@@ -25,7 +25,9 @@ const Animation = ({
   initial = {},
   loop = 0,
   onCompleteCallback,
+  idxList,
 }) => {
+  console.log("GETS IDX LIST : ", idxList)
   // given our values array, look to the child to figure out our current values.
   const current = values.reduce((bucket, v) => {
     return { ...bucket, [v]: child.props[v] }
@@ -86,6 +88,7 @@ const Animation = ({
   // finally, we're going to clone the child with the new props
   // but toss out the animator-initial value: we don't need it any more and don't
   // want it writing to the DOM.
+  console.log("RENDERS IDX LIST : ", idxList)
   return React.cloneElement(child, {
     ...localValues,
     [ANIMATOR_INITIAL]: undefined,
