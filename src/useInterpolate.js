@@ -104,7 +104,7 @@ const useInterpolate = (
   // moved us to at that point. Then wipe out our lastFrame.
   if (hasChanges && lastFrame.current.frame) {
     cancelAnimationFrame(lastFrame.current.frame)
-    previous.current = lastFrame.current.delta
+    previous.current = lastFrame.current.delta || initial
     lastFrame.current = {}
   }
 
