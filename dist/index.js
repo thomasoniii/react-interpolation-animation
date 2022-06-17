@@ -114,7 +114,7 @@ var useInterpolate = function useInterpolate(current, setter) {
 
   if (hasChanges && lastFrame.current.frame) {
     cancelAnimationFrame(lastFrame.current.frame);
-    previous.current = lastFrame.current.delta;
+    previous.current = lastFrame.current.delta || initial;
     lastFrame.current = {};
   } // we enter the effect when hasChanges has changed.
 
